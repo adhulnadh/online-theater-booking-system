@@ -1,0 +1,11 @@
+{
+  "name": "theater-booking-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1"
+  }
+}
