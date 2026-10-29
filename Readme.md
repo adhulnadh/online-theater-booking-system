@@ -1,8 +1,8 @@
 # 🎬 Online Theater Booking System
 
-A full-stack, smart movie ticket booking platform built with **Java (Spring Boot)** and **React**. This project goes beyond basic CRUD operations by introducing real-time seat locking, intelligent theater recommendations, and WebSocket-driven live updates.
+A full-stack, smart movie ticket booking platform built with **Java (Spring Boot)** and **React**. This project goes beyond basic CRUD operations by introducing automated seat locking and intelligent theater recommendations.
 
-> **College Project:** Developed as part of a 4-week sprint, focusing on concurrency control, algorithm design, and real-time web technologies.
+> **College Project:** Developed as part of a 4-week sprint, focusing on concurrency control and algorithm design.
 
 ---
 
@@ -19,14 +19,6 @@ A full-stack, smart movie ticket booking platform built with **Java (Spring Boot
   * **Aspect Ratio Match** (Compares the movie's aspect ratio to the theater screen's aspect ratio).
 * Calculates a weighted **Recommendation Score** and highlights the best option with a "★ Recommended" badge.
 
-### 3. 🔔 Real-Time Seat Release Notification
-* Utilizes **WebSockets (STOMP)** to push live updates to all users viewing a specific show.
-* If a seat lock expires or a user cancels a booking, the UI instantly updates the seat color from "Locked/Booked" to "Available" without requiring a page refresh.
-
-### 4. 🎟️ Booking Cancellation
-* Users can cancel upcoming bookings from their "My Bookings" dashboard.
-* Cancellation triggers an atomic database transaction to release the seats and broadcasts a WebSocket event so other users can grab them immediately.
-
 ---
 
 ## 🛠️ Technology Stack
@@ -34,7 +26,6 @@ A full-stack, smart movie ticket booking platform built with **Java (Spring Boot
 ### Backend
 * **Language:** Java 21
 * **Framework:** Spring Boot 3 (Spring Web, Spring Data JPA, Spring Security)
-* **Real-Time:** Spring WebSocket (STOMP)
 * **Authentication:** JWT (JSON Web Tokens)
 * **Database:** MySQL 8
 
@@ -44,7 +35,6 @@ A full-stack, smart movie ticket booking platform built with **Java (Spring Boot
 * **Routing:** React Router DOM
 * **State Management:** React Context API
 * **HTTP Client:** Axios
-* **Real-Time Client:** SockJS + STOMP.js
 * **Notifications:** React-Toastify
 
 ---
@@ -55,7 +45,7 @@ A full-stack, smart movie ticket booking platform built with **Java (Spring Boot
 * **Responsive Design:** Mobile-first approach using CSS Grid and Flexbox to ensure the seat map works on all screen sizes.
 * **Optimistic UI Updates:** The seat color changes to "Selected" immediately upon click. If the backend returns a `409 Conflict` (seat already taken), the UI reverts the color and shows an error toast.
 * **Conditional Rendering:** Navbar dynamically changes based on authentication state.
-* **Real-Time UI Sync:** The `SeatGrid` component subscribes to a WebSocket topic and updates specific seat colors instantly when a broadcast is received.
+* **Client-Side Timers:** A 10-minute countdown timer is displayed in the UI when a seat is locked, giving the user visual feedback on their remaining time to confirm the booking.
 
 ---
 
@@ -68,7 +58,7 @@ A full-stack, smart movie ticket booking platform built with **Java (Spring Boot
 | **Theaters** | `theater_id`, `name`, `location`, `screen_size_inches`, `screen_aspect_ratio` |
 | **Shows** | `show_id`, `movie_id`, `theater_id`, `start_time` |
 | **Seats** | `seat_id`, `show_id`, `seat_number`, `status` (AVAILABLE/LOCKED/BOOKED), `locked_until`, `user_id` |
-| **Bookings** | `booking_id`, `user_id`, `show_id`, `booking_time`, `status` (CONFIRMED/CANCELLED) |
+| **Bookings** | `booking_id`, `user_id`, `show_id`, `booking_time`, `status` |
 
 ---
 
